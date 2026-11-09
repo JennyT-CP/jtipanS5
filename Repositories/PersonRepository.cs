@@ -90,7 +90,48 @@ namespace jtipanS5.Repositories
 
 
         // UPDATE
+        public void UpdatePerson(int id, string name)
+        {
+            int result = 0;
 
+            try
+            {
+                Init();
+
+                // VALIDAR QUE EL NOMBRE NO ESTÉ VACÍO
+                if (string.IsNullOrWhiteSpace(name))
+                    throw new Exception("Nombre es requerido");
+
+                // BUSCAR LA PERSONA POR SU ID
+                Persona persona = _conn.Find<Persona>(id);
+
+                if (persona != null)
+                {
+                    // ACTUALIZAR EL NOMBRE
+                    persona.Name = name.Trim();
+
+                    // GUARDAR LOS CAMBIOS EN SQLITE
+                    result = _conn.Update(persona);
+
+                    if (result > 0)
+                    {
+                        StatusMessage = "Persona actualizada correctamente";
+                    }
+                    else
+                    {
+                        StatusMessage = "No se pudo actualizar la persona";
+                    }
+                }
+                else
+                {
+                    StatusMessage = "No se encontró la persona";
+                }
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = "Error " + ex.Message;
+            }
+        }
 
     }
 }

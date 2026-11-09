@@ -1,82 +1,253 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="jtipanS5.Views.vPersona"
-             Title="vPersona">
-    <VerticalStackLayout
+
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="jtipanS5.Views.vPersona"
+    Title="Gestión de Personas"
+    BackgroundColor="#F3F6FA">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <!-- ESTILO GENERAL DE BOTONES -->
+            <Style x:Key="EstiloBoton"
+                   TargetType="Button">
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="HeightRequest" Value="48"/>
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+
+            <!-- ESTILO DE MENSAJES -->
+            <Style x:Key="EstiloMensaje"
+                   TargetType="Label">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="TextColor" Value="#1565C0"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="LineBreakMode" Value="WordWrap"/>
+            </Style>
+
+            <!-- ESTILO PARA LOS DATOS DE LA LISTA -->
+            <Style x:Key="EstiloDato"
+                   TargetType="Label">
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="TextColor" Value="#263238"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid
         Padding="15"
-        Spacing="15">
-        <Label 
-            Text="Semana 5: BASES DE DATOS LOCALES"
-            FontSize="20"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        RowDefinitions="Auto,Auto,Auto,Auto,Auto,*"
+        RowSpacing="12">
 
-        <Entry x:Name="txtName"
-               Placeholder="Ingresa el nombre"/>
+        <!-- ENCABEZADO -->
+        <VerticalStackLayout
+            Grid.Row="0"
+            Spacing="5">
 
-        <Grid Padding="5" RowSpacing="5" ColumnSpacing="5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Button x:Name="btnAgregar"
-                    Text="Agregar Persona"
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Clicked="btnAgregar_Clicked"/>
-            <Label x:Name="lblStatusMessage"
-                   TextColor="Red"
-                   Grid.Row="1"
-                   Grid.Column="0"/>
-            <Button x:Name="btnMostrar"
-                    Text="Mostrar Personas"
-                    Clicked="btnMostrar_Clicked"
-                    Grid.Row="2"
-                    Grid.Column="0"/>
-            <CollectionView x:Name="listaPersonas"
-                            Grid.Row="3"
-                            Grid.Column="0"
-                            VerticalOptions="Fill">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid 
-                            ColumnSpacing="10"
-                            Padding="5"
-                            MinimumHeightRequest="55">
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Label Text="{Binding Id}"
-                                   Grid.Row="0"
-                                   Grid.Column="0"
-                                   VerticalOptions="Center"/>
-                            <Label Text="{Binding Name}"
-                                   Grid.Row="0"
-                                   Grid.Column="1"
-                                   VerticalOptions="Center"/>
-                            <Button Text="Eliminar"
-                                    Grid.Row="0"
-                                    Grid.Column="2"
-                                    BackgroundColor="Red"
-                                    TextColor="White"
-                                    CommandParameter="{Binding Id}"
-                                    Clicked="Button_Clicked"/>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+            <Label
+                Text="Semana 5: Bases de Datos Locales"
+                FontSize="24"
+                FontAttributes="Bold"
+                TextColor="#123D67"
+                HorizontalTextAlignment="Center"/>
+
+        </VerticalStackLayout>
+
+        <!-- CAMPO NOMBRE -->
+        <Border
+            Grid.Row="1"
+            BackgroundColor="White"
+            Stroke="#E2E8F0"
+            StrokeThickness="1"
+            Padding="12"
+            StrokeShape="RoundRectangle 12">
+
+            <VerticalStackLayout Spacing="6">
+
+                <Label
+                    Text="Nombre de la persona"
+                    FontAttributes="Bold"
+                    FontSize="15"
+                    TextColor="#334155"/>
+
+                <Entry
+                    x:Name="txtName"
+                    Placeholder="Ingrese el nombre"
+                    PlaceholderColor="#94A3B8"
+                    TextColor="#1E293B"
+                    BackgroundColor="#F8FAFC"
+                    MaxLength="25"/>
+
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- BOTONES PRINCIPALES -->
+        <Grid
+            Grid.Row="2"
+            ColumnDefinitions="*,*"
+            RowDefinitions="Auto,Auto"
+            ColumnSpacing="10"
+            RowSpacing="10">
+
+            <!-- AGREGAR -->
+            <Button
+                x:Name="btnAgregar"
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="Agregar"
+                BackgroundColor="#16A34A"
+                Style="{StaticResource EstiloBoton}"
+                Clicked="btnAgregar_Clicked"/>
+
+            <!-- ACTUALIZAR -->
+            <Button
+                x:Name="btnActualizar"
+                Grid.Row="0"
+                Grid.Column="1"
+                Text="Actualizar"
+                BackgroundColor="#2563EB"
+                IsEnabled="False"
+                Style="{StaticResource EstiloBoton}"
+                Clicked="btnActualizar_Clicked"/>
+
+            <!-- CANCELAR -->
+            <Button
+                x:Name="btnCancelar"
+                Grid.Row="1"
+                Grid.Column="0"
+                Text="Cancelar edición"
+                BackgroundColor="#64748B"
+                IsEnabled="False"
+                Style="{StaticResource EstiloBoton}"
+                Clicked="btnCancelar_Clicked"/>
+
+            <!-- MOSTRAR -->
+            <Button
+                x:Name="btnMostrar"
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="Mostrar personas"
+                BackgroundColor="#123D67"
+                Style="{StaticResource EstiloBoton}"
+                Clicked="btnMostrar_Clicked"/>
+
         </Grid>
-    </VerticalStackLayout>
-    
+
+        <!-- MENSAJES DEL SISTEMA -->
+        <Border
+            Grid.Row="3"
+            BackgroundColor="#E8F1FB"
+            Stroke="#BFDBFE"
+            Padding="12"
+            StrokeShape="RoundRectangle 10">
+
+            <Label
+                x:Name="lblStatusMessage"
+                Text="Seleccione una operación para comenzar."
+                Style="{StaticResource EstiloMensaje}"/>
+
+        </Border>
+
+        <!-- ENCABEZADO DE LA LISTA -->
+        <Grid
+            Grid.Row="4"
+            ColumnDefinitions="40,*,85,85"
+            ColumnSpacing="6"
+            Padding="8"
+            BackgroundColor="#E2E8F0">
+
+            <Label
+                Grid.Column="0"
+                Text="ID"
+                FontAttributes="Bold"
+                TextColor="#334155"/>
+
+            <Label
+                Grid.Column="1"
+                Text="Nombre"
+                FontAttributes="Bold"
+                TextColor="#334155"/>
+
+            <Label
+                Grid.Column="2"
+                Grid.ColumnSpan="2"
+                Text="Acciones"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+                TextColor="#334155"/>
+
+        </Grid>
+
+        <!-- LISTA DE PERSONAS -->
+        <CollectionView
+            x:Name="listaPersonas"
+            Grid.Row="5"
+            VerticalOptions="Fill"
+            EmptyView="No existen personas registradas.">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+
+                    <Grid
+                        ColumnDefinitions="40,*,85,85"
+                        RowDefinitions="Auto"
+                        ColumnSpacing="6"
+                        Padding="5"
+                        MinimumHeightRequest="60">
+
+                        <!-- ID -->
+                        <Label
+                            Grid.Column="0"
+                            Text="{Binding Id}"
+                            Style="{StaticResource EstiloDato}"/>
+
+                        <!-- NOMBRE -->
+                        <Label
+                            Grid.Column="1"
+                            Text="{Binding Name}"
+                            LineBreakMode="TailTruncation"
+                            Style="{StaticResource EstiloDato}"/>
+
+                        <!-- EDITAR -->
+                        <Button
+                            x:Name="btnEditar"
+                            Grid.Column="2"
+                            Text="Editar"
+                            FontSize="12"
+                            HeightRequest="38"
+                            Padding="4,0"
+                            BackgroundColor="#2563EB"
+                            TextColor="White"
+                            CornerRadius="8"
+                            CommandParameter="{Binding .}"
+                            Clicked="btnEditar_Clicked"/>
+
+                        <!-- ELIMINAR -->
+                        <Button
+                            Grid.Column="3"
+                            Text="Eliminar"
+                            FontSize="12"
+                            HeightRequest="38"
+                            Padding="4,0"
+                            BackgroundColor="#DC2626"
+                            TextColor="White"
+                            CornerRadius="8"
+                            CommandParameter="{Binding Id}"
+                            Clicked="Button_Clicked"/>
+
+                    </Grid>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </Grid>
+
 </ContentPage>
